@@ -4,9 +4,9 @@
   <arg name="camera_topic_A" default="/camera_A/color/image_raw"/>
   <arg name="camera_topic_B" default="/camera_B/color/image_raw"/>
   <arg name="camera_topic_C" default="/camera_C/color/image_raw"/>
-  <arg name="camera_info_topic_A" default="/camera_A/color/camera_info"/>
-  <arg name="camera_info_topic_B" default="/camera_B/color/camera_info"/>
-  <arg name="camera_info_topic_C" default="/camera_C/color/camera_info"/>
+  <arg name="camera_info_topic_A" default="/camera_A/custom_intrinsics"/>
+  <arg name="camera_info_topic_B" default="/camera_B/custom_intrinsics"/>
+  <arg name="camera_info_topic_C" default="/camera_C/custom_intrinsics"/>
   <arg name="detected_objects_topic" default="detected_objects"/>
   
   <!-- The FasterRCNN model should be located in

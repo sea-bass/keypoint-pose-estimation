@@ -94,7 +94,7 @@ class KeypointDetectorNode(object):
         # combined_sub = message_filters.TimeSynchronizer(
         #     [detections_sub, image_sub], 100)
         combined_sub = message_filters.ApproximateTimeSynchronizer(
-            [detections_sub, image_sub], 100, 0.1)
+            [detections_sub, image_sub], 100, 0.2)
         combined_sub.registerCallback(self.detect_keypoints)
 
         rospy.loginfo("Spinning")
