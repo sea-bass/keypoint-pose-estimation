@@ -28,9 +28,11 @@ KeypointOptimizer::KeypointOptimizer(ros::NodeHandle& n)
     // scastro: Switch between approximate and exact time filter?
     // typedef message_filters::sync_policies::ExactTime<wm_od_interface_msgs::ira_dets, wm_od_interface_msgs::KeypointDetections> sync_policy;
     typedef message_filters::sync_policies::ApproximateTime<wm_od_interface_msgs::ira_dets, wm_od_interface_msgs::KeypointDetections> sync_policy;
-    
+    sync_policy time_policy = sync_policy(100);
+    time_policy.setAgePenalty(0.2);
+    time_policy.setInterMessageLowerBound(ros::Duration(0.01));
 
-    message_filters::Synchronizer<sync_policy> sync(sync_policy(100),
+    message_filters::Synchronizer<sync_policy> sync(sync_policy(time_policy),
                                                     detections_sub,
                                                     keypoints_sub);
     sync.registerCallback(boost::bind(&KeypointOptimizer::KeypointAndDetectionCallback,
