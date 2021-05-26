@@ -89,9 +89,14 @@ class KeypointDetectorNode(object):
         detections_sub = message_filters.Subscriber('detected_objects',
                                                     ira_dets)
         image_sub = message_filters.Subscriber('/image', Image)
-        combined_sub = message_filters.TimeSynchronizer(
-            [detections_sub, image_sub], 100)
+
+        # scastro: Switch between approximate and exact time filter?
+        # combined_sub = message_filters.TimeSynchronizer(
+        #     [detections_sub, image_sub], 100)
+        combined_sub = message_filters.ApproximateTimeSynchronizer(
+            [detections_sub, image_sub], 100, 0.1)
         combined_sub.registerCallback(self.detect_keypoints)
+
         rospy.loginfo("Spinning")
         rospy.spin()
 

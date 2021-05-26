@@ -24,9 +24,13 @@ KeypointOptimizer::KeypointOptimizer(ros::NodeHandle& n)
 
     message_filters::Subscriber<wm_od_interface_msgs::ira_dets> detections_sub(n, "detected_objects", 1);
     message_filters::Subscriber<wm_od_interface_msgs::KeypointDetections> keypoints_sub(n, "pose_estimator/img_keypoints", 1);
-    typedef message_filters::sync_policies::ExactTime<wm_od_interface_msgs::ira_dets, wm_od_interface_msgs::KeypointDetections> sync_policy;
+
+    // scastro: Switch between approximate and exact time filter?
+    // typedef message_filters::sync_policies::ExactTime<wm_od_interface_msgs::ira_dets, wm_od_interface_msgs::KeypointDetections> sync_policy;
+    typedef message_filters::sync_policies::ApproximateTime<wm_od_interface_msgs::ira_dets, wm_od_interface_msgs::KeypointDetections> sync_policy;
     
-    message_filters::Synchronizer<sync_policy> sync(sync_policy(10),
+
+    message_filters::Synchronizer<sync_policy> sync(sync_policy(100),
                                                     detections_sub,
                                                     keypoints_sub);
     sync.registerCallback(boost::bind(&KeypointOptimizer::KeypointAndDetectionCallback,
